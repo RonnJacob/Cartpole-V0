@@ -3,6 +3,7 @@ import numpy as np
 import math
 import sys
 from collections import deque
+import matplotlib.pyplot as plt
 
 
 class QLearningCartPole:
@@ -68,7 +69,7 @@ class QLearningCartPole:
             done = False
 
             while not done:
-                self.env.render()
+                # self.env.render()
                 action = self.get_action(current_state, epsilon)
                 obs, reward, done, _ = self.env.step(action)
                 new_state = self.convert_to_discrete(obs)
@@ -89,5 +90,16 @@ class QLearningCartPole:
 
 if __name__ == "__main__":
     solver = QLearningCartPole()
-    solver.run()
+    x = []
+    y = []
+    for i in xrange(1, 11):
+        x.append(i)
+        y.append(solver.run())
+        plt.plot(x, y, 'ro')
+    plt.ylabel('No of Episodes to solve')
+    plt.show()
+    print('Min {}'.format(min(y)))
+    print('Max {}'.format(max(y)))
+    print('Mean {}'.format(np.mean(y)))
+    print('SD {}'.format(np.std(y)))
     sys.exit()
